@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Papan Peringkat Hacker Indonesia — HackerOne</title>
+<meta name="description" content="Peringkat reputasi sepanjang masa hacker dan business account asal Indonesia di HackerOne. Diperbarui harian dari data publik.">
+<meta name="theme-color" content="#0C0E14">
+<meta property="og:title" content="Papan Peringkat Hacker Indonesia — HackerOne">
+<meta property="og:description" content="Peringkat reputasi sepanjang masa hacker dan business account asal Indonesia di HackerOne.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230C0E14'/%3E%3Crect x='6' y='7' width='20' height='8' rx='2' fill='%23FF3D4D'/%3E%3Crect x='6' y='17' width='20' height='8' rx='2' fill='%23ECEFF5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C0E14;
+  --slate:#141824;
+  --slate-2:#1A1F2E;
+  --line:#242B3B;
+  --ivory:#ECEFF5;
+  --muted:#8A93A8;
+  --merah:#FF3D4D;
+  --brass:#F5B841;
+  --silver:#C6CDDB;
+  --bronze:#C9834B;
+  --r:10px;
+  --pad:clamp(16px,4vw,32px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ink);color:var(--ivory);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(900px 420px at 12% -8%, rgba(255,61,77,.13), transparent 65%),
+    radial-gradient(700px 380px at 92% -4%, rgba(245,184,65,.08), transparent 60%);
+}
+.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:0 var(--pad) 72px}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--merah);outline-offset:2px;border-radius:6px}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 0;border-bottom:1px solid var(--line);
+}
+.mark{display:flex;align-items:center;gap:9px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.flag{width:22px;height:15px;border-radius:2px;overflow:hidden;display:block;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+.flag i{display:block;height:50%}
+.flag i:first-child{background:#E1352C}
+.flag i:last-child{background:#F3F5F9}
+.src{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted)}
+.src b{color:var(--ivory);font-weight:500}
+
+.hero{padding:38px 0 26px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--merah);margin:0 0 14px
+}
+h1{
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;
+  font-size:clamp(38px,9vw,68px);line-height:.94;letter-spacing:-.02em;margin:0;
+  text-transform:uppercase;
+}
+h1 span{display:block;color:var(--muted)}
+.lede{max-width:56ch;color:var(--muted);margin:18px 0 0;font-size:15.5px}
+.lede b{color:var(--ivory);font-weight:600;font-variant-numeric:tabular-nums}
+
+.figs{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:26px}
+.fig{background:var(--slate);padding:14px 16px}
+.fig dt{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fig dd{margin:4px 0 0;font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:26px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+@media(min-width:720px){.figs{grid-template-columns:repeat(4,1fr)}}
+
+.strip{margin-top:30px}
+.strip-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.strip-head h2{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:0}
+.strip-hint{font-size:12px;color:var(--muted)}
+.bands{display:flex;gap:4px;width:100%;align-items:flex-end}
+.band{
+  flex:1 1 0;min-width:0;border:0;padding:0;cursor:pointer;background:transparent;
+  display:flex;flex-direction:column;gap:5px;justify-content:flex-end;
+  font-family:inherit;color:var(--muted);text-align:center;
+}
+.band .n{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-variant-numeric:tabular-nums}
+.band .bar{
+  border-radius:4px 4px 2px 2px;background:var(--tint);position:relative;overflow:hidden;
+  transition:filter .18s ease,transform .18s ease;transform-origin:bottom;
+  animation:rise .55s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise{from{transform:scaleY(.02)}to{transform:scaleY(1)}}
+.band .bar::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.18),transparent 55%)}
+.band .t{font-size:10px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.band:hover .bar,.band:focus-visible .bar{filter:brightness(1.18)}
+.band[aria-pressed="true"]{color:var(--ivory)}
+.band[aria-pressed="true"] .bar{box-shadow:0 0 0 2px var(--ink),0 0 0 3px var(--ivory)}
+
+.controls{
+  position:sticky;top:0;z-index:5;margin:34px calc(var(--pad)*-1) 0;padding:12px var(--pad);
+  background:rgba(12,14,20,.88);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+}
+.tabs{display:flex;gap:2px;background:var(--slate);border:1px solid var(--line);border-radius:8px;padding:3px}
+.tab{
+  border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 12.5px/1 "IBM Plex Sans",sans-serif;padding:8px 12px;border-radius:6px;white-space:nowrap;
+}
+.tab b{font-family:"IBM Plex Mono",monospace;font-weight:400;opacity:.6;margin-left:5px}
+.tab[aria-selected="true"]{background:var(--merah);color:#fff}
+.tab[aria-selected="true"] b{opacity:.75}
+.search{position:relative;flex:1 1 190px;min-width:150px}
+.search input{
+  width:100%;background:var(--slate);border:1px solid var(--line);border-radius:8px;
+  color:var(--ivory);padding:10px 12px 10px 32px;font:400 13.5px "IBM Plex Mono",monospace;
+}
+.search input::placeholder{color:#5F6980}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#5F6980}
+select{
+  background:var(--slate);border:1px solid var(--line);border-radius:8px;color:var(--ivory);
+  padding:10px 12px;font:500 12.5px "IBM Plex Sans",sans-serif;cursor:pointer;
+}
+
+.podium{display:grid;gap:10px;margin:22px 0 6px}
+@media(min-width:780px){.podium{grid-template-columns:1.25fr 1fr 1fr;align-items:end}}
+.pod{
+  position:relative;overflow:hidden;background:var(--slate);border:1px solid var(--line);
+  border-radius:var(--r);padding:16px 16px 15px;display:block;
+}
+.pod::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--metal)}
+.pod::after{
+  content:attr(data-place);position:absolute;right:-6px;top:-16px;
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:96px;
+  color:var(--metal);opacity:.13;line-height:1;
+}
+.pod .h{display:flex;align-items:center;gap:10px}
+.pod .handle{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pts{margin-top:12px;font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:34px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;color:var(--metal)}
+.pod .pts small{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-left:6px}
+.pod .sub{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);margin-top:6px}
+.pod:hover{border-color:#33405A}
+@media(min-width:780px){.pod.p1{padding-bottom:30px}}
+
+.ava{
+  flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;
+  font:600 11px "IBM Plex Mono",monospace;text-transform:uppercase;color:#0C0E14;
+  background:linear-gradient(145deg,hsl(var(--h) 62% 72%),hsl(var(--h) 55% 52%));
+}
+.pod .ava{width:34px;height:34px;font-size:12px}
+
+.list{margin-top:14px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.row{
+  display:grid;grid-template-columns:38px 30px minmax(0,1fr) auto;gap:12px;align-items:center;
+  padding:11px 12px;border-bottom:1px solid var(--line);background:var(--slate);
+  transition:background .14s ease;
+}
+.row:last-child{border-bottom:0}
+.row:hover,.row:focus-visible{background:var(--slate-2)}
+.rk{
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:19px;
+  font-variant-numeric:tabular-nums;color:#616C86;text-align:right;
+}
+.row.me .rk,.rk.top{color:var(--brass)}
+.who{min-width:0}
+.handle{font-family:"IBM Plex Mono",monospace;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:7px}
+.handle span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip{
+  flex:none;font:500 9.5px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 6px;border-radius:4px;background:var(--tint);color:#0C0E14;
+}
+.chip.biz{background:transparent;color:var(--merah);box-shadow:inset 0 0 0 1px currentColor}
+.meta{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.meta .x{color:#6B748B}
+.score{text-align:right;min-width:96px}
+.pts{font-family:"IBM Plex Sans Condensed",sans-serif;font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}
+.repbar{height:3px;border-radius:2px;background:#222939;margin-top:5px;overflow:hidden}
+.repbar i{display:block;height:100%;background:linear-gradient(90deg,var(--merah),var(--brass));transform-origin:left;animation:grow .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(max-width:560px){
+  .row{grid-template-columns:30px 26px minmax(0,1fr) auto;gap:9px;padding:10px}
+  .ava{width:26px;height:26px;border-radius:7px;font-size:10px}
+  .score{min-width:76px}
+  .meta .x{display:none}
+}
+
+.more{
+  display:block;width:100%;margin-top:14px;padding:13px;cursor:pointer;
+  background:var(--slate);border:1px solid var(--line);border-radius:var(--r);
+  color:var(--ivory);font:600 13px "IBM Plex Sans",sans-serif;
+}
+.more:hover{background:var(--slate-2);border-color:#33405A}
+.note{
+  margin:16px 0 0;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--merah);
+  border-radius:8px;background:var(--slate);color:var(--muted);font-size:13px;
+}
+.note b{color:var(--ivory);font-weight:600}
+.empty{padding:44px 20px;text-align:center;background:var(--slate);border:1px solid var(--line);border-radius:var(--r);margin-top:14px}
+.empty p{margin:0 0 6px;font-weight:600}
+.empty small{color:var(--muted);display:block;max-width:44ch;margin:0 auto}
+.count{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);margin:16px 0 0}
+footer{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+footer h2{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ivory);margin:0 0 10px;font-weight:500}
+footer p{margin:0 0 10px;max-width:70ch}
+footer code{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ivory);background:var(--slate);padding:1px 5px;border-radius:4px}
+footer a{color:var(--merah)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="mark">
+      <span class="flag" aria-hidden="true"><i></i><i></i></span>
+      <span>Indonesia · HackerOne</span>
+    </div>
+    <div class="src">diperbarui <b id="updated">—</b></div>
+  </div>
+
+  <header class="hero">
+    <p class="eyebrow">Reputasi sepanjang masa</p>
+    <h1>Papan Peringkat<span>Hacker Indonesia</span></h1>
+    <p class="lede" id="lede">Memuat data…</p>
+
+    <dl class="figs">
+      <div class="fig"><dt>Hacker terdaftar</dt><dd id="f-total">—</dd></div>
+      <div class="fig"><dt>Total reputasi</dt><dd id="f-rep">—</dd></div>
+      <div class="fig"><dt>Laporan resolved</dt><dd id="f-rep2">—</dd></div>
+      <div class="fig"><dt>Top 1.000 dunia</dt><dd id="f-ww">—</dd></div>
+    </dl>
+
+    <section class="strip">
+      <div class="strip-head">
+        <h2>Sebaran reputasi</h2>
+        <span class="strip-hint">ketuk untuk memfilter</span>
+      </div>
+      <div class="bands" id="bands"></div>
+    </section>
+  </header>
+
+  <div class="controls">
+    <div class="tabs" role="tablist" aria-label="Tipe akun">
+      <button class="tab" role="tab" data-type="all" aria-selected="true">Semua <b id="c-all">0</b></button>
+      <button class="tab" role="tab" data-type="individual" aria-selected="false">Individu <b id="c-ind">0</b></button>
+      <button class="tab" role="tab" data-type="business" aria-selected="false">Business <b id="c-biz">0</b></button>
+    </div>
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+      <input id="q" type="search" placeholder="cari username…" aria-label="Cari username">
+    </label>
+    <select id="sort" aria-label="Urutkan">
+      <option value="reputation">Urut: reputasi</option>
+      <option value="worldwide_rank">Urut: peringkat dunia</option>
+      <option value="resolved_reports">Urut: laporan resolved</option>
+      <option value="thanks_items">Urut: thanks</option>
+      <option value="signal">Urut: signal</option>
+      <option value="impact">Urut: impact</option>
+    </select>
+  </div>
+
+  <main>
+    <p class="note" id="note" hidden></p>
+    <div class="podium" id="podium"></div>
+    <div class="list" id="list"></div>
+    <button class="more" id="more" hidden>Tampilkan 50 lagi</button>
+    <p class="count" id="count"></p>
+  </main>
+
+  <footer>
+    <h2>Cara data ini dibangun</h2>
+    <p>HackerOne tidak menyediakan papan peringkat all-time per negara. <code>ALL_TIME_REPUTATION</code> dibatasi 100 besar dunia dan mengabaikan filter negara, sedangkan <code>HIGHEST_REPUTATION_BY_COUNTRY</code> wajib memakai tahun. Tapi setiap entri leaderboard sudah membawa reputasi seumur hidup dan peringkat dunia hacker-nya — jadi pekerjaan sebenarnya adalah <em>menemukan</em> semua akun Indonesia, bukan mengurutkannya. Job harian menyapu tiap papan negara sejak 2020, per tahun dan per kuartal, untuk tipe akun individu maupun business, lalu dedupe dan urut berdasarkan poin seumur hidup.</p>
+    <p>Akun tanpa reputasi dan akun yang sudah dihapus tidak ditampilkan. Hacker yang hanya mengumpulkan poin sebelum 2020 dan tidak pernah masuk papan negara lagi tidak bisa ditemukan. Peringkat dunia kosong berarti akunnya ada di bawah batas ranking global HackerOne.</p>
+    <p>Tidak resmi dan tidak berafiliasi dengan HackerOne. Data disapu langsung dari <code>hackerone.com/graphql</code> (query publik) — metode diadaptasi dari <a href="https://github.com/daffainfo/hackerone-leaderboard-id" target="_blank" rel="noopener">daffainfo/hackerone-leaderboard-id</a>, dijalankan mandiri di repo ini.</p>
+  </footer>
+</div>
+
+<script>
+const SNAPSHOT = "supermancyber|27216|51|638|70|6.99|16.87|\nirwanjugabro|24784|63|662|228|6.2|18.6|\nhrdfrdh|9879|240|407|248|5.98|16.83|\namr_id|9668|248|262|37|7.0|18.49|\nemanuelharijanto|9508|256|260|144|6.61|19.0|\nroot_geek280|9033|278|240|159|5.87|19.3|\ngnux|5517|497|185|79|4.62|17.57|\nn13s|5456|502|145|48|6.19|20.03|\nauxirie|4993|554|110|22|6.88|18.37|\nback2arie|4917|564|118|68|7.0|20.57|\nfind_me_here|4590|607|124|43|5.62|19.3|\nssherlock1|4387|633|111|31|6.39|16.79|\narong3117|4266|646|163|18|6.58|16.17|\nclearlovefanboi|4186|660|55|66|6.6|31.62|\nvibonacci|4061|691|70|48|6.55|27.22|\ngevakun|3948|711|112|29|6.59|13.9|\napapedulimu|3928|715|129|34|5.43|17.37|\ncthulhufhtagn|3442|806|57|10|6.89|22.93|\nrafiem|3079|911|115|13|5.88|17.88|\nthem4les_l1r|2808|976|85|14|6.23|16.87|\nv0id1|2731|1003|88|22|6.38|21.76|\nfrozzipies|2694|1016|52|21|5.84|17.01|\nnnxxrr|2455|1104|30|16|7.0|18.47|\nmhmmdazhari|2423|1118|62|22|7.0|21.96|\nmrzheev|2404|1128|65|47|4.39|21.31|\nmuhammaddaffa|2399|1130|66|44|5.69|18.26|\nzeeagil|2350|1150|46|17|6.39|15.51|\nabdilahrf_|2289|1174|75|55|5.19|19.61|\ndyingcountry_|2112|1262|75|44|5.09|17.93|\n0xshdax|2108|1263|84|43|6.47|16.06|\nn1rmala|1993|1319|43|16|4.31|15.39|\ntipsen|1963|1334|28|16|7.0|17.5|\nsyarif07|1949|1345|52|26|3.59|17.95|\nrabka|1885|1393|23|9|7.0|25.39|\nb4dc4t|1821|1435|47|34|6.48|17.79|\nprasetia|1795|1452|62|8|5.76|20.25|\nrugb|1494|1696|42|28|4.06|26.31|\n0x3rz4f|1420|1770|45|9|6.76|23.45|\nsepolia|1369|1805|47|22|5.25|17.55|\nrootbakar_|1307|1876|48|16|2.69|17.12|\n33x|1247|1956|16|14|6.74|17.39|\nasdqw3|1204|2014|38|23|6.08|23.03|\nelvies|1170|2052|10|18|7.0|17.12|\nnanwn|1169|2053|36|33|4.16|23.53|\nnovemberelang|1163|2059|34|18|6.06|15.8|\nferdirianrk|1119|2118|123|5|6.81|24.0|\nxzyhellsing|1066|2198|10|20|6.08|19.43|\nsourc7|1052|2211|37|8|6.68|18.16|\ncancerz|1049|2215|36|5|5.47|18.42|\nh1xploit|996|2292|29|14|5.91|21.25|\ng0dzira|985|2312|29|21|6.42|18.94|\nbebensap|983|2314|29|9|5.63|28.82|\nro_|962|2356|32|24|4.38|16.76|\neneri|961|2357|27|20|5.97|18.45|\nrevoulk|949|2375|23|21|6.66|15.0|\nzerboa|925|2424|25|17|3.8|22.24|\nlilroot|919|2436|13|9|4.6|16.55|\ntimor_|916|2444|15|16|3.46|18.03|\naddress_below0|915|2446|24|11|6.25|24.38|\nrandrly|883|2525|29|16|4.58|17.66|\nmalagham|862|2571|96|33|5.59|20.0|\nferdihermawan1337|857|2587|27|18|5.33|15.29|\nwpanggoro|848|2608|12|5|5.84|20.19|\nn00bsec|793|2727|51|52|3.77|11.72|\nrdzsp|789|2737|22|6|6.57|16.67|\nantonade|737|2890|8|8|5.62|17.22|\nbs0xx|731|2909|17|10|6.54|17.31|\njon_jos|711|2973|20|28|3.62|15.58|\nxchopath|690|3039|24|7|7.0|23.18|\nfelcity|634|3216|29|27|6.27|13.2|\nvictimjugabro|628||15|7|1.21|30.31|\nnyxsorcerer|620|3269|12|7|7.0|28.93|\nreivalentino|617|3283|11|8|3.87|24.38|\nriodrwn|602|3356|17|19|7.0|28.75|\nsyahrul_akbar_r|595|3387|16|13|3.35|24.38|\nagate_|583|3426|6|9|7.0|27.08|\nabejads|575|3471|12|16|7.0|26.43|\nrioncool22|574|3475|19|28|1.74|20.56|\ndianeme_|559|3545|66|11|6.65||\nfind_me_now|545|3600|14|6|6.25|20.94|\nkos0ng|538|3629|18|9|7.0|18.12|\npacenoge|536|3638|22|16|4.97|17.5|\nwayc0de|532|3656|50|31|3.02|13.33|\nparkerrr|528|3674|20|4|7.0|14.74|\ncrewmc|528|3674|15|5|5.56|19.38|\ntofla007|526|3683|14|11|3.28|19.41|\nfemiii|522|3701|1|8|||\ntowasamamajitenshi|515|3733|5|9|6.29|17.19|\njkpz86|513|3742|13|3|7.0|26.67|\ng0wthr|505|3793|9|2|6.62|20.56|\nfariqfgi|465|4047|7|9|2.5|13.12|\nmrardiansah|457|4109|11|12|6.33|15.0|\nyottt|457|4109|8|9|2.34|18.53|\nsnvm|451|4159|14|20|5.67|20.0|\nwilliamhanugra|440|4231|2|8|5.44||\nmrplufy|440|4231|14|10|3.8|15.0|\noyisam|431|4287|10|10|4.13|11.67|\nfoui|415|4396|4|2|7.0|32.5|\nsh1ne|403|4491|8|4|7.0|14.64|\nlamsyah|398|4539|23|9|5.76|18.33|\nn9rxxx|392|4598|7|8|2.06|23.0|\ntanknight|391|4607|10|7|5.5|22.0|\nxterm19|381|4696|12|13|7.0|17.0|\n0x666|380|4706|10|1|6.36|21.0|\ncodeslayer1337|379|4718|51|26|0.65|14.58|\ndotxml|379|4718|6|4|5.91|21.5|\nrflame|378|4731|16|19|||\nakwkao|376|4752|15|12|||\nkhoyoko|367|4837|10|4|5.83|19.5|\ntester092004|363|4874|10|10|2.19|13.64|\nvotr123|354|4977|9|9|4.24|23.75|\nbigfoureyes|352|5001|9|10|3.8|17.73|\nrdnzx|347|5061|12|14|1.79|15.77|\nbolanid2|340|5147|8|5|5.5|18.75|\nr1pu5u|322|5359|6|11|6.0|15.56|\nmuhammadidriss|321|5375|1|4|-3.0|15.0|\ntoukakirishima|320|5386|10|3|4.23|15.0|\nzkey0|318|5413|7|8|1.86|20.0|\nxklepxn|303|5606|10|12|1.87|25.83|\naydilfhr|298|5676|9|15|4.23|19.0|\nyatmaa|296|5709|6|4|6.0|16.43|\nurinaori|291|5779|3|3|7.0|24.17|\nquain|285|5875|7|7|-0.43|31.67|\npikpik|283|5904|19|30|3.13|7.5|\nmrdoel|274|6071|19|9|3.97||\nrafipiun|272|6115|8|10|4.6|24.0|\ntejo|265|6255|4|4|3.0|29.0|\nsrcode|263|6302|10|5|6.14|10.71|\nborneosec|259|6387|1|4|3.7|20.83|\nsoftwareguy|257|6420|2|5|5.0|24.0|\nmedusa-btg|255|6460|5|1|7.0|24.0|\nadissahilna25|255|6460|0|2||17.5|\nabritknight|255|6460|3|3|7.0|15.71|\nprivdarkside|252|6511|5|5|5.29|24.0|\nbengsky|252|6511|3|2|0.38|29.0|\nipin|251|6529|7|5|3.0|18.33|\ntrimatra-sec|248|6591|7|16|2.56|25.0|\nunknown4sec|247|6616|2|3|7.0|28.75|\nviperblitzz|243|6718|0|6|7.0|15.0|\nstardot|242|6757|6|1|7.0|16.67|\ndarmo|241|6777|7|4|5.1|15.0|\nsecuriben|238|6833|5|2|2.2|18.0|\nsaello|238|6833|4|6|1.14|15.0|\nsatelitesarecool|234|6926|2|4|7.0|23.75|\nzhh|233|6952|9|19|-1.27|16.36|\nhalwkly|231|7018|1|3|4.0|15.0|\nphant0mc0der|230|7041|11|11|4.43|12.0|\naldis_satria|229|7068|7|5|5.5|15.0|\nargareksapatii|228|7085|4|11|2.2|22.5|\njohanw|224|7205|2|9|5.0||\noshackx|220|7320|4|2|7.0|17.0|\nm_ghazi_dz|218|7388|1|7|||\npsfauzi|217|7430|5|10|3.0|15.0|\niwasday|217|7430|5|1|5.0|15.0|\nwhackoxjacko|215|7488|1|4|2.2|33.33|\neltoruz|215|7488|8|6|5.8|15.0|\nxfatih|213|7606|2|1|||\nmoch_azril|212|7639|2|1|3.0||\nzeesozee|211|7673|8|8|6.14||\nhooh_tenan|211|7673|3|1|7.0|30.0|\ndawinite|209|7769|5|7|7.0|17.5|\ns4dmach1ne|206|7875|1|2|7.0||\nsetiawan_|200|8094|4|3|1.86|14.17|\nhafiizh26|199|8133|3|5|2.5|17.5|\naliefis|199|8133|3|1|5.29|15.0|\nrakabtw|198|8165|10|14|5.5||\nsigitsetiawansss|195|8295|4|2|2.5|15.0|\nbaon007|195|8295|5|7|2.0|20.0|\nucuping|192|8421|2|4|-0.57|30.0|\nhackmocrazy|192|8421|15|9|4.0||\nrhyru9|192|8421|7|13|4.6||\nyuyudhn|190|8496|4|6|7.0||\nrebelsec|185|8784|3|3|4.0|17.5|\nmrmj777|185|8784|4|3|0.67|15.0|\nk4rtyax|184|8829|0|1|3.0||\nninjamerah|183|8871|4|7|3.0|20.0|\nrenald0ttt|182|8932|3|5|3.57|15.0|\nsambool|181|8975|3|1|4.0|21.67|\njanganlupasholat|181|8975|2|3|5.64||\ncyberspacex|179|9085|4|4|7.0|15.0|\nhikmahhusnuzon|178|9205|2|7|0.14|15.0|\nkento911|178|9205|1|2|||\nreznv|178|9205|3|3|7.0|18.33|\nxasa_sad234|176||10|6|-2.25|17.73|\ndwisiswant0|176|9307|6|11|0.86||\narya_alfahrezy|176|9307|2|3|1.0||\nrmrizki|176|9307|2|6|7.0|18.33|\ndemonhunter0x|176|9307|0|4|||\nburningresolve|175|9398|8|4|5.8||\nhellscorpion|175|9398|5|7|-1.67|15.0|\nsudiaman|174|9451|1|5||15.0|\nsamspl|174|9451|2|3||15.0|\nkurtjembuo12|173|9491|2|5|-0.12|13.33|\nyuuki403|172|9555|2|9|2.2|15.0|\nf0x48|172|9555|2|4|||\nkustirama|171|9607|8|10|0.29|12.5|\nthund3r17|170|9668|3|4|-1.0|26.67|\nertzeus|170|9668|2|2|7.0|15.0|\nvickyshptra|168|9768|2|3|1.0|15.0|\nalexidilan11|168|9768|0|4|||\nkokurate|167|9850|5|5|7.0||\nsitakom|166|9892|5|7|0.62|12.5|\ndeltapunk67|166|9892|0|1|7.0|15.0|\nnxs|166|9892|3|2|7.0|15.0|\nrizakh|166|9892|2|3|4.2|15.0|\nthd3rboy|165|10032|4|3|1.0|18.33|\nxnu71|161|10351|1|1|||\nrazii|161|10351|1|2|4.67||\ndaffailhamramadan|160|10460|2|4|4.67||\nidkwh1t|158|10693|2|3|1.83|15.0|\nimatvy-claus|158|10693|0|3|0.17|18.33|\nsor44|158|10693|3|4|2.2|15.0|\nardyanv1ckyramadhan|157|10784|4|10|-1.26|13.12|\nviennna|157|10784|1|1|||\nhanzyiz|157|10784|1|1|||\nnull41|157|10784|0|1|||\nnungki|156|11510|2|3|3.0|15.0|\ncekidot|156|11510|0|1|||\nsinarpagi|155|11619|2|6|5.0||\nharrmaharr|154|11684|2|1|||\nnervhym|154|11684|2|1|||\nv8k2xf|154|11684|2|1|-0.2||\nansuh|152|11973|1|1|||\nspectrecyber|152|11973|0|4|1.0||\nzeropace|152|11973|1|1|||\nxasx|152|11973|6|5|3.36||\ndc61703fdbcd3f8331d3dc24078c01|151||11|11|0.08|10.0|\nmadcane|150|12191|3|2|0.2||\nsupermancyberjeff|150|12191|2|2|||\nlilpeko|150|12191|2|4|||\n0xrohadi|149|12274|3|6|2.2||\nsupermancyberx|148|12390|2|1|||\nthe_bossman|147|12468|5|10|7.0||\nsupermancybers|146|12552|2|1|||\ncoinb8797|146|12552|2|1|2.8||\nrusmana0x16|145|12684|2|1|3.0||\nrezasahubawa|145|12684|9|6|-2.14|18.33|\ndimasaprilian993|144|12745|5|6|-1.06|15.0|\nluckyday_89|144|12745|0|1|||\nsamyu|144|12745|0|1|||\ndepapp|143|13151|3|2|7.0||\nsansozymandias|143|13151|4|2|7.0||\nstinger22|142|13233|1|1|-2.0||\nsixluck|141|13326|3|4|4.0||\nlawbytes|141|13326|2|1|||\nsupermancyber19|141|13326|2|1|3.0||\nharrmahar|141|13326|2|3|-1.22||\nbenjamin_qa|140|13439|2|8|-0.22|20.0|\ngibranal|139|13489|2|2|3.5||\nnoer_hack|137|13793|3|6|0.17||\nbenisprlh|137|13793|3|3|1.0||\nvoize|136|13919|0|2|||\nultramyofficial|136|13919|2|5|7.0||\nkobenienjoyer|136|13919|1|2|7.0||\nsp3c14l|135|14057|3|5|0.14||\nnxxxr|135|14057|1|5|||\nggromadon|134|14165|0|1|1.0||\nnio_c00l|134|14165|1|2|||\nernans|134|14165|2|3|1.0||\nenumerat1|133|14398|2|3|||\n0xzenko|132|14474|1|1|||\nmaskirovka21|132|14474|2|8|7.0||\nadisatria|132|14474|1|1|||\ntype5afe|132|14474|3|2|7.0||\nariestahrt|132|14474|1|1|||\nqwerty3117|131|15514|2|2|||\nryujinx|131|15514|1|2|-2.6||\nanggipradana7|131|15514|2|6|0.8||\nrootkiddo|129|15765|1|1|3.0||\nsqui7|129|15765|2|2|-0.2||\nbrainsec|129|15765|4|3|-0.2||\nthehackermachine|127||1|1|||\narwildo|127|16304|5|4|3.57||\nkey8ice|126|16480|1|2|4.0||\neibi|126|16480|1|4|-0.2|15.0|\ngasfad01|126|16480|2|3|||\nfaturochman13|126|16480|1|3|||\nsitampan|126|16480|2|3|7.0||\npepenkkk|124|16786|0|2|||\nbolanid98|124|16786|1|3|-1.0||\n0xjester|124|16786|1|1|||\nalpariamani|124||0|2|||\nticorex|124|16786|0|2|||\nedmpl|124|16786|1|1|||\narieee|124|16786|1|2|||\nowny777|123|17255|1|3|||\nmond4y|122|17404|1|1|||\nkrisnadi|122|17404|1|1|||\nj1ngga156|122|17404|1|1|||\nsecsoya|122|17404|1|1|||\nopic|122|17404|1|8|-1.0|15.0|\njust1one|122|17404|1|1|||\npassthebug1337|122|17404|1|1|||\nsubagjarobi|122|17404|0|1|||\nejzraa|122|17404|1|1|||\nyoungii|122|17404|0|1|||\nghostbump|122|17404|1|2|||\nsalieris|122|17404|0|1|||\nkevinjinsakai|122|17404|0|1|||\naptroom|122|17404|1|1|||\nkaens|122|17404|1|1|||\nwaterme1on|122|17404|0|1|||\nfaxcel|122|17404|1|1|||\nekubo100|122||1|1|||\nmiraicantsleep|122|17404|0|1|||\nbocahcar|122|17404|0|1|||\nnopaldapa|122|17404|1|1|||\nclack45|122|17404|1|1|-1.0||\nw1th0ut|122|17404|6|8|2.0||\nscraido|122|17404|1|1|||\nhc275|121|20582|2|2|0.11||\ncatge|121|20582|0|2|||\nmacawboy|119|20994|2|3|1.0||\nkgor|119|20994|1|2|||\nverren|119|20994|1|1|-3.0||\nmasteria|118|21228|2|1|||\npajarori|117|21383|1|1|||\nihsansky|117|21383|0|1|||\nnewtmltch|117||0|1|||\nbbsecure|117|21383|1|1|||\nparaee|117|21383|0|1|||\notoyyy_h1|116|22171|1|2|-3.0||\nbutirandebu1|116|22171|2|3|||\nprzts|116|22171|2|3|4.0||\nfazriansyahmr|116|22171|0|2|||\nnxcode|116|22171|1|2|1.0||\nherdiyanitdev|116|22171|0|3|-5.0||\nhaaahaaahiihiiii|116|22171|2|2|||\nznoata0|115|22470|0|1|||\namfaxspl|114|22869|2|3|-0.2||\nopdev|114|22869|2|2|3.0||\nvexsec-ai|114|22869|1|2|||b\nnewbiexzy|114|22869|1|2|||\nmrizkykur|114|22869|1|1|||\ntwinxsec|114|22869|1|2|-1.0||\nc0rvuz|113|23702|2|3|3.0||\nnoideanamed|112|23844|1|2|||\ntryhard-security|112|23844|0|1|||\nrezajugabro|112|23844|0|1|-1.0||\nzx07|112|23844|0|1|||\ntuyul98|112|23844|1|1|-1.0||\nskysenz|112|23844|0|1|||\ntwseptian|112|23844|0|1|-1.0||\nhadeshaxorrrr|111|24205|1|3|-1.0||\nredspr|111|24205|0|2|||\ncochobar|110|24478|0|1|||\ntinocs|110|24478|0|2|||\nz1x_|110|24478|1|5|-1.57||\nputriayudia|110|24478|3|5|1.0||\nimagodei|109|24629|2|1|2.25||\npetruknisme|109|24629|1|2|-0.5||\npendekarcyber|109|24629|0|2|||\nraefan|109|24629|0|2|-5.0||\nlindan_id|109|24629|2|1|3.0||\nnxxnxx|109|24629|0|1|||\nbinkyy|107|25482|0|2|||\nmando_22x|107|25482|1|1|||\nrperdana|107|25482|1|2|||\ntermireum_|107|25482|1|2|-2.0||\nfauzanwijaya|107|25482|1|1|||\nadhen|107|25482|1|1|||\ndukunhaxan8|107|25482|1|2|||\nbalengbambu|107|25482|1|1|-2.0||\nch1ron|107|25482|1|1|||\nexexex|107|25482|1|1|||\nthund3rcloud|107|25482|0|4|||\nrobzlabz|107|25482|1|1|||\nv3l0|107|25482|0|1|||\nprimeonme|107|25482|1|1|||\ngieszcha|107|25482|1|1|||\ndefnilay|107|25482|0|1|||\ns4tva|107|25482|1|1|||\nk1llusec010|107|25482|1|1|||\nwhozhever00|107|25482|1|1|||\nv3ll0|107|25482|1|1|||\nery_404|107|25482|1|1|||\nstvj|107|25482|1|1|-3.0||\njefflanzz|107|25482|1|1|-2.0||\nrealzzy77|107|25482|1|2|||\nabsol227|107|25482|0|1|||\nkretozs|107|25482|0|1|||\nardhani|107|25482|1|1|||\nkhatulistiwa|107|25482|1|1|||\nirfan7|106|30153|1|3|||\nfer1bytex0|106|30153|1|4|||\nsantiko1986|106|30153|6|7|-2.39|18.33|\nkac0|106|30153|1|3|||\nkenjisubagja29|106|30153|1|1|||\nblubluuu|105|30440|2|4|-1.0||\naaezakmii|105|30440|0|2|||\nfaronaa_|104|30520|0|2|||\njodyritz|104|30520|0|1|||\nwildhan0708|104|30520|0|1|||\nfeitan13|104|30520|1|2|-3.29||\nreyra|104|30520|0|2|||\ncorvuzsec|104|30520|0|2|3.0||\nmrbadai|104|30520|0|2|||\nrajaculaemas|104|30520|0|1|||\ngembelelite|104|30520|0|1|||\nsyhbt|104|30520|0|2|||\nsyncr0ne_1337|104|30520|0|2|||\nh3rtz|103|31319|2|3|-0.2||\nyozu-8|102|31423|0|1|||\nhansdiks157|102|31423|0|1|||\ndinosunday18|102|31423|1|1|||\nxecureyan|102|31423|0|1|||\nan0nvi|102|31423|0|1|||\nemhabee|102|31423|0|1|||\nandikafransisco|102|31423|0|1|||\nbengsky13|102|31423|0|1|||\nhadesshade|102|31423|0|1|||\njarph1sh|102|31423|1|1|0.67||\nlordim|102|31423|1|1|||\nh3d4s|102|31423|1|2|||\nkelazking|102|31423|0|1|||\ngeneralid|102|31423|1|1|||\ntukangscan|102|31423|0|1|||\navvesome|102|31423|0|1|||\nrushkhy404|102|31423|1|1|-3.25||\nmugiwaranon00b|102|31423|0|1|||\nlegesya|102|31423|0|1|||\nbraincore|102|31423|0|1|||\ngeryyy|102|31423|0|1|||\nbaraya033|102|31423|0|2|||\nzonkryst|102|31423|0|1|||\nsinzooxp|102|31423|0|1|||\narchelote|102|31423|0|1|||\nhshsj_shsh|102|31423|0|1|||\ndanil556|102|31423|0|1|||\nchunsky|102|31423|1|1|-2.0||\nblakravat|102|31423|0|1|||\n0xfix|102|31423|0|1|||\ndxrie|102|31423|0|1|||\ncybervan|102|31423|0|1|||\nz3cux|102|31423|0|1|||\nneabyte|102|31423|0|1|||\nadenoviardian|102|31423|0|1|||\nnazariosafariesqi|102|31423|1|1|||\n6e6f787861|102|31423|0|1|||\nalierektz|102|31423|0|1|||\nf1shcod|102|31423|0|1|||\nsr01|102|31423|1|1|||\ngethuk|102|31423|0|1|||\n18day|102||0|0|||\ndaffh|102|31423|0|1|||\nanisabillqis|102|31423|0|1|||\nrxzxl|102|31423|0|1|||\nbrianeedsleep|102|31423|0|1|||\nebonx|102|31423|1|0|||\nxcore13x|102|31423|0|1|||\nlcr999x|102|31423|1|1|||\narf224|102|31423|0|1|||\nd4rkd|102|31423|0|1|||\nkhs1n|102|31423|0|1|||\nghroot67|102|31423|0|1|||\nalfi21s|102|31423|1|1|||\ntuzki666|102|31423|0|1|||\nc4kc0k|102|31423|0|1|||\nfakhricrd|101|36358|3|3|1.0||\nfamily_bachtiar101|101|36358|1|4|-3.4|18.33|\nluxwhisky|100|36888|0|0|||\nm0nkeyt3ch|100|36888|0|0|||\nb3njaminz|100|36888|0|0|||\nsunday1337|100|36888|0|0|||\nahm_ul|100|36888|0|0|||\nhadyangans|100|36888|0|0|||\nrohmatariow|100|36888|0|0|||\nabal_xpost|100|36888|0|0|||\nthx1337|100|36888|0|0|||\namfarnas|100|36888|0|0|||\nsubaidi|100|36888|0|0|||\nendlessly|100|36888|0|0|||\napt_05|100|36888|0|0|||\n5y4h|100|36888|0|0|||\nwhats_name|100|36888|0|0|||\nsultanrizky1337|100|36888|0|0|||\nhostservertuan|100|36888|0|0|||\ncon7ext|100|36888|0|0|||\nigniel|100|36888|0|0|||\nrtlenong|100|36888|0|0|||\nfirdansp|100|36888|0|1|||\ninsecuresys|100|36888|0|0|||\nmetoo12|100|36888|0|0|||\nirwan01|100|36888|0|0|||\nmhhfdpro|100|36888|0|0|||\nwzltn|100|36888|0|0|||\ngalihabbip|100|36888|0|0|||\nh79sen|100|36888|0|0|||\nblacklistcyberid|100|36888|0|0|||\nhanz0x07|100|36888|0|0|||\npikosec|100|36888|0|1|||\nbanua|100|36888|0|0|||\nb4wang|100|36888|0|0|||\nbangjp|100|36888|0|0|||\np0h|100|36888|0|0|||\nsansan12|100|36888|0|0|||\nredshamn12|100|36888|0|1|||\nfr3|100|36888|0|0|||\nblueberet|100|36888|0|0|||\nbintangsatu|100|36888|0|1|||\ntanweerali|100|36888|0|0|||\nhilmiabdulazisfirmansyah|100|36888|0|0|||\nridwancard|100|36888|0|0|||\nidd50|100|36888|0|0|||\nfecore|100|36888|0|0|||\npsychopumpum|100|36888|0|0|||\nquwaisploit|100|36888|0|0|||\nazhariramadhan|100|36888|0|0|||\nadef13|100|36888|0|0|||\nalvinferd25|100|36888|0|0|||\nzayui19|100|36888|0|0|||\nrootings|100|36888|0|0|||\nsotong1337|100|36888|0|0|||\nlowanzwijaya|100|36888|0|0|||\nrizalltampanz|100|36888|0|0|||\nrajo_paburu|100|36888|0|0|||\nbp_acces|100|36888|0|0|||\nsecreach|100|36888|0|0|||\nrootbell|100|36888|0|0|||\nmysteriza|100|36888|0|0|||\ndesmon05|100|36888|0|0|||\nxksatriax|100|36888|0|0|||\nk1ngp1ng|100|36888|0|0|||\ntolkontoldfdfd|100|36888|0|0|||\n0xr3nzz|100|36888|0|0|||\noneari|100|36888|0|0|||\nsayutizxc|100|36888|0|0|||\nbabeland|100|36888|0|0|||\ncozsen|100|36888|0|0|||\nnus1x|100|36888|0|0|||\nnurhakim|100|36888|0|0|||\nkitkit99zfs|100|36888|0|0|||\nrm-h|100|36888|0|0|||\ngloo|100|36888|0|0|||\ndhxploit|100|36888|0|0|||\nloveurselff|100|36888|0|0|||\ndianbaehaki|100|36888|0|0|||\nbashes|100|36888|0|0|||\nmutegdp1413|100|36888|0|0|||\nlr00t|100|36888|0|0|||\nlearnthebyte|100|36888|0|0|||\nzer0id|100|36888|0|0|||\nyamashitamizuki|100|36888|0|0|||\nneicyy|100|36888|0|0|||\nd4nz|100|36888|0|0|||\nhextester|100|36888|0|0|||\ndhvnrmdhn|100|36888|0|0|||\nhellojawa|100|36888|0|0|||\nimingame|100|36888|0|0|||\ngazuazzuazz|100|36888|0|0|||\njjchonc|100|36888|0|1|||\nabiyunda|100|36888|0|0|||\nmrmichie07|100|36888|0|0|||\nkentooo|100|36888|0|0|||\n0xc4t|100|36888|0|0|||\ngospel69|100|36888|0|0|||\nphaser_|100|36888|0|0|||\nk0m0d0id|100|36888|0|0|||\nmnovalbs|100|36888|0|0|||\ndhafy|100|36888|0|0|||\nthemisalecetra|100|36888|0|0|||\nnazxa|100|36888|0|0|||\nnightxsec|100|36888|0|1|||\nkarintan|100|36888|0|0|||\nd6falt|100|36888|0|0|||\njusronp|100|36888|0|0|||\nk4tedu|100|36888|0|1|||\niancs|100|36888|0|0|||\nrilsan|100|36888|0|0|||\n0xfrosty|100|36888|0|0|||\nledokss|100|36888|0|0|||\nlanus|100|36888|0|0|||\nmaulanaagung|100|36888|0|0|||\nikyxd|100|36888|0|0|||\nflyvree|100|36888|0|0|||\nkuy22|100|36888|0|0|||\nbluexz-only|100|36888|0|0|||\npyscodes|100|36888|0|0|||\nsantricyber|100|36888|0|0|||\negar07|100|36888|0|0|||\nkenzx|100|36888|0|0|||\nnap99|100|36888|0|0|||\nrizqimaulana|100|36888|0|0|||\nenjeex|100|36888|0|1|||\npositivevibe|100|36888|0|0|||\nwagyudone|100|36888|0|0|||\nsc4redy|100|36888|0|0|||\nvinzzx231|100|36888|0|0|||\ntrbrox|100|36888|0|0|||\naeoh|100|36888|0|0|||\nsupermarket|100|36888|0|0|||\nardeva22|100|36888|0|0|||\nprakoso004|100|36888|0|0|||\nnajibulasror|100|36888|0|0|||\nnelsonyonzon|100|36888|0|0|||\nxsen_code|100|36888|0|0|||\nsin9911|100|36888|0|0|||\ndamnn_1|100|36888|0|0|||\nghostxd00|100|36888|0|0|||\nwawlast00|100|36888|0|0|||\ncedsbstn|100|36888|0|0|||\n4hmad56|100|36888|0|0|||\nskuzyyy|100|36888|0|0|||\nnphyt|100|36888|0|0|||\nbrzzz|100|36888|0|0|||\njxigris|100|36888|0|0|||\ntinypurpleberryy|100|36888|0|0|||\naceproulx01|100|36888|0|0|||\nfirdaus_muhammad_ismail|100|36888|0|0|||\nzukyun|100|36888|0|0|||\nrohmadhidayahh|100||0|0|||\nfazriansyahmuh|100|36888|0|0|||\nyouknowsnowsee|100|36888|0|0|||\nsunwukongcyber|100|36888|0|0|||\ns3nkuu0|100|36888|0|0|||\nvampxd|100|36888|0|0|||\nrohmad_hidayah|100||0|0|||\nbosbulan|100|36888|0|0|||\nsewnkin|100|36888|0|0|||\nbanyray8|100|36888|0|0|||\nfealsx|100|36888|0|0|||\nfunfisika|100|36888|0|0|||\ncybersmd|100|36888|0|0|||\ng00dm4n|100|36888|0|0|||\nkrypton2021|100|36888|0|0|||\ncyberlimit2|100|36888|0|0|||\nhe_is_pirate|100|36888|0|0|||\ncarrot99|100|36888|0|0|||\nmengen|100|36888|0|0|||\nfarrel0xx_|100|36888|0|0|||\nucoksgans|100|36888|0|0|||\ngarciaa|100|36888|0|0|||\nalwaysme22|100|36888|0|1|||\ncakarasss|100|36888|0|0|||\neldjie|100|36888|0|0|||\nmhkti_17|100|36888|0|1|||\nrhafa_one|100|36888|0|0|||\nvanoayoungboy|100|36888|0|0|||\nmojocyber|100|36888|0|0|||\nyudiganteng11|100|36888|0|0|||\nz0lf|100|36888|0|0|||\nhachi|100|36888|0|0|||\nronin4code|100|36888|0|0|||\nyounggenerations|100|36888|0|0|||\nredacted0x01x|100|36888|0|0|||\nprast_id|100|36888|0|0|||\naprilrian|100|36888|0|0|||\nardxcryz|100|36888|0|0|||\nsmuft1707|100|36888|0|0|||\nfarissal_b|100|36888|0|0|||\npennyw1se|100|36888|0|0|||\nwtrm1n|100|36888|0|0|||\nxredindo|100|36888|0|0|||\nmfs1337|100|36888|0|0|||\ngloryfa__-|100|36888|0|0|||\nazelsans|100|36888|0|0|||\nkelvinyen|100|36888|0|0|||\nmasmasheker|100|36888|0|0|||\nbekasi-elite|100|36888|0|0|||\ngeerhansentanu|100|36888|0|0|||\nzhmaa|100|36888|0|0|||\nmrlite4444|100|36888|0|0|||\ndevsecry|100|36888|0|0|||\nsicantik|100|36888|0|0|||\nlyxanar|100|36888|0|0|||\nnotok|100|36888|0|0|||\nykz404|100|36888|0|0|||\nwhyhid47|100|36888|0|0|||\nrayhanhanaputra|100|36888|0|0|||\nearthbender|100|36888|0|1|||\nkhaclep|100|36888|0|0|||\ndomicadoesca|100|36888|0|0|||\niblitzc0de|100|36888|0|0|||\nwarifp|100|36888|0|0|||\nhexdemsion|100|36888|0|0|||\nzsec_id|100|36888|0|0|||\nsharpicx|100|36888|0|0|||\ndrxiiiq|100|36888|0|0|||\nsec0nds0n|100|36888|0|0|||\nmxrizky|99|151156|1|2|-1.57||\nyuraveon|99|151150|0|1|||\nbexovoris|99|151156|1|2|-1.0||\ngodzia|99|151155|1|1|-3.5||\nandrilss|97|151936|1|1|-1.0||\noksir|97|151931|0|1|||\n0xashiiii|97|151931|0|1|||\npecelponorogo|97|151933|0|2|||\neazypyz|97|151937|1|2|||\norca88|97|151936|0|1|||\nbobmarleyuye|97|151937|0|1|||\ndcrows3c|97|151936|0|1|||\nzake1god|97|151932|0|1|||\ndnlrsdy|97|151937|0|1|||\nkorip|97|151937|0|1|||\ndellohhh|97|151937|0|1|||\nfalsenine|97|151937|1|1|-1.0||\nazzasecondd|97||0|0|||\n0x71rex|97|151933|0|1|||\nplanktonroot|97|151937|0|1|||\nijphunter|97|151937|1|2|-1.0||\nnofacez|97|151937|0|1|||\nninjavi|97|151937|0|1|||\nvascoz|96|153717|1|3|-1.0||\nrzap|96|153717|0|2|||\n1tte|95|153894|0|0|||\nsilentchild6|95|153894|0|0|||\nradytia|95|153893|0|0|||\nanahendra|95|153888|0|1|||\nreal_dukun|95|153888|0|0|||\njustr|95|153894|0|0|||\narmx|95|153888|0|0|||\nzulfi0|95|153888|0|0|||\nqchad0909|95|153888|0|0|||\nfoxsroot|95|153888|0|0|||\nrizal_tampanz|95|153890|0|0|||\nyasashihito|95|153889|0|0|||\nlanceroot555|95|153888|0|0|||\nsi_nonim|95|153888|0|0|||\nars27|95|153888|0|0|||\nphantom4|95|153894|0|0|||\nytaufiq04|95|153893|0|0|||\nthespartas|95|153888|0|0|||\nafdolgazali|95|153894|0|0|||\nten_id|95|153890|0|0|||\nsyndrom2211|95|153891|0|0|||\nbangkitsanjaya_|95|153894|0|0|||\ngalihadiwijaya|95|153894|0|0|||\nsi-mf|95|153890|0|0|||\nkecoakterbang04|95|153891|0|0|||\nkor3k|95|153893|0|0|||\nenter_666x|95|153893|0|0|||\nfaammaaf|95|153891|0|0|||\ninternal_admin|95|153894|0|0|||\no2h|95|153893|0|0|||\nshadowfun|95|153894|0|0|||\nbazeniancode|95|153894|0|0|||\nking_kizu|95|153894|0|0|||\n0x403for|95|153894|0|0|||\npndsec|95|153894|0|0|||\nbossarifsanjaya|95|153894|0|1|||\nt0m1irv4n|95|153894|0|0|||\nalewo|95|153894|0|0|||\nanna_mahayani|95|153894|0|0|||\nskeletondouble|95|153894|0|0|||\nxbools|95|153894|0|0|||\nredbeardx9|95|153894|0|0|||\nha1miyambg|95|153894|0|0|||\nmasmib|95|153894|0|0|||\nmassbayy|95|153894|0|0|||\nsparkle02|94|196171|1|2|||\ninspector_xz|94|196170|2|3|-1.0||\nlofixcodec_|94|196171|0|2|||\nxhk_|94|196171|1|2|-2.0||\nsylncereyes|92|196777|0|1|||\ncyberdesu|92|196777|0|1|||\nimfrnx|92|196771|0|1|||\nzerochiperxxx|92|196777|0|1|||\nmanjaa9103|92|196777|1|1|-3.0||\nssherlock_1|92|196774|0|1|||\nepen|92|196777|1|1|-1.0||\nmastiko1986|92|196777|0|1|||\nwilliam443|92|196777|0|1|||\npvx|92|196777|0|1|||\nmindbl0wsec|92|196776|0|1|||\nn12d11n|91|197798|0|2|-3.44||\nrwxrwxs|91|197792|1|3|-3.25||\ndenysetiawan|90|197905|0|0|||\njustlookit|90|197906|0|0|||\nhihipro65|90|197911|0|0|||\nexuros|90|197905|0|0|||\nd3x068|90|197911|0|1|||\nu171n|90|197910|0|0|||\nhilalattamimi|90|197908|0|0|||\n0xpungoe|90|197911|0|0|||\nsapik|90|197906|0|0|||\nmeow1336|90|197911|0|0|||\nhalduey|90|197911|0|0|||\nbejokoke_|90|197911|0|0|||\nrhadit0525|90|197911|0|0|||\nk0r3kk|90|197911|0|1|||\nandihsyh|90|197911|0|0|||\nnuribnuu|90|197911|0|0|||\ndhipzy1337|90|197911|0|0|||\ncryptovip|90|197911|0|0|||\nrizki1337|90|197905|0|0|||\nxmark|90|197907|0|0|||\nharipriandana|89|212203|1|2|-2.6||\nmrcylops|89|212203|2|2|-1.57||\ntwohair|89|212209|0|2|-5.0||\nbobriva|89|212209|0|1|-2.0||\nnodal|87|212475|1|1|-2.0||\nsan9kala|87|212475|0|1|-5.0||\nyoshikage_kira26|87|212475|0|2|||\nmrstarclowns|87|212475|1|1|-3.29||\np45pu7|87|212475|0|1|-5.0||\nmbg45|87|212475|1|1|-2.6||\nmindbl0w|87|212471|0|1|-3.75||\ntwosid|87|212472|0|1|-3.33||\nyupysyntx|85|213178|0|0|||\nfriendsmr|85|213176|0|0|-5.0||\nrizal_marda|85|213176|0|0|||\n0xbroe|85|213176|0|0|-5.0||\nbrowtesting|85|213177|0|0|-5.0||\nlimmxx|85|213182|0|0|||\nkertiaa|85|213181|0|1|||\nparjis|85|213182|0|0|-5.0||\njnavibrokerscs|85|213182|0|0|-5.0||\nmizzlynx00|85|213176|0|0|-5.0||\nsecanalysts|84|217835|1|2|-1.8||\nalgisec1337|84|217835|2|3|-2.0||\nfajarakmall|83|218001|3|5|||\npekora|82|218046|0|1|-5.0||\njingga|82|218040|1|2|-2.6||\ntuasikal_abdul13|82|218046|0|1|-3.6||\nadnanapriliyansyah|82|218046|0|1|-5.0||\nprasety0__|82|218046|0|1|-5.0||\nmr-ts|82|218046|0|1|-5.0||\nauswahlen|80|218497|0|0|-5.0||\nakarkode|80|218503|0|0|||\nmashan1337|80|218503|0|0|||\ndarkgent|79|221238|2|2|-2.33||\nzxc6775|77|221368|0|1|-5.0||\ndjoevanka|75|221695|0|0|-5.0||\nabudzar_al_gifari|75|221695|0|0|-5.0||\nhellopentester|75|221697|0|0|-2.5||\ni_like_a25|75|221701|0|0|||\nnabbbbbbbbb|72|223151|0|1|-6.67||\narc-squishy|72|223149|1|1|-4.0||\nshin_towel|71|223335|12|3|-1.0||\nmaghua|71|223335|1|3|-3.87||\nalioth_me|70|223374|0|0|-5.0||\nutaa|70|223375|0|0|-5.0||\nraygun99|67|224327|0|1|-5.0||\nryan900|65|224480|0|0|-5.0||\nsayin|64|224980|0|2|-10.0||\nbristlebug|64|224977|0|4|-2.19||\nmiscx911|56|225662|0|3|-5.0||\nvikishptraa|55|225681|0|0|||\nnazila_d|55|225687|3|4|-2.6||\nrizki21|55|225687|0|0|-5.0||\nrahmatsetiawan6199|55|225687|0|0|-5.0||\nrade0nx|55|225687|0|0|-5.0||\nkatrok|55|225687|0|0|-5.0||\nzaen_hxr|54|225922|0|1|-5.0||\nspekpok|50|226039|0|0|-7.14||\n0xalter|42|226406|0|2|-5.0||\ns4s0r1|29|226744|1|2|-4.37||\nhelmi387|17|226909|0|1|-5.0||\nfrizo_05|7|227018|2|5|-4.67||";
+const SNAP_META = {"country": "ID", "generated_at": "2026-08-02T04:20:04Z", "ranked": 849};
+
+const REMOTE_CSV  = "data/leaderboard_ID.csv"; 
+const REMOTE_META = "data/meta_ID.json";
+
+const TIERS = [
+  { name:"Legend",  min:10000, tint:"#F5B841" },
+  { name:"Elite",   min:5000,  tint:"#FF8A3D" },
+  { name:"Veteran", min:1000,  tint:"#FF3D4D" },
+  { name:"Hunter",  min:500,   tint:"#C2568F" },
+  { name:"Rookie",  min:100,   tint:"#7A6BC4" },
+  { name:"Pemula",  min:0,     tint:"#4B5673" },
+];
+const tierOf = r => TIERS.find(t => r >= t.min);
+
+let DATA = [], MAXREP = 1;
+const state = { type:"all", tier:null, q:"", sort:"reputation", shown:50 };
+
+const num = n => n.toLocaleString("id-ID");
+const compact = n => n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1).replace(".",",")+"rb" : String(n);
+const int = v => { const n = parseInt(v,10); return Number.isFinite(n) ? n : null; };
+const flt = v => { const n = parseFloat(v);  return Number.isFinite(n) ? n : null; };
+
+function fromSnapshot(s){
+  return s.split("\n").filter(Boolean).map((line,i) => {
+    const [u,rep,ww,rr,th,sg,im,ty] = line.split("|");
+    return {
+      country_rank:i+1, username:u, reputation:int(rep)||0, worldwide_rank:int(ww),
+      resolved_reports:int(rr)||0, thanks_items:int(th)||0,
+      signal:flt(sg), impact:flt(im), business: ty === "b",
+    };
+  });
+}
+
+function fromCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const head = lines.shift().split(",");
+  const at = k => head.indexOf(k);
+  const [iU,iR,iW,iRR,iT,iS,iI,iTy] =
+    ["username","reputation","worldwide_rank","resolved_reports","thanks_items","signal","impact","user_type"].map(at);
+  return lines.map((l,i) => {
+    const c = l.split(",");
+    return {
+      country_rank:i+1, username:c[iU], reputation:int(c[iR])||0, worldwide_rank:int(c[iW]),
+      resolved_reports:int(c[iRR])||0, thanks_items:int(c[iT])||0,
+      signal:flt(c[iS]), impact:flt(c[iI]), business:(c[iTy]||"").trim() === "business",
+    };
+  }).filter(r => r.username);
+}
+
+function hue(name){ let h = 0; for (const ch of name) h = (h*31 + ch.charCodeAt(0)) % 360; return h; }
+function initials(name){ const s = name.replace(/[^a-z0-9]/gi,""); return (s.slice(0,2) || "??"); }
+const width = rep => Math.max(2, Math.pow(rep / MAXREP, .42) * 100);
+
+function metaLine(r){
+  const lead = [`${num(r.resolved_reports)} laporan`,
+                r.worldwide_rank ? `dunia #${num(r.worldwide_rank)}` : "dunia —"];
+  const extra = [];
+  if (r.thanks_items) extra.push(`${num(r.thanks_items)} thanks`);
+  if (r.signal != null) extra.push(`signal ${r.signal}`);
+  if (r.impact != null) extra.push(`impact ${r.impact}`);
+  return lead.join(" · ") + (extra.length ? `<span class="x"> · ${extra.join(" · ")}</span>` : "");
+}
+
+function rowHTML(r){
+  const t = tierOf(r.reputation);
+  const rank = r.country_rank;
+  return `<a class="row" href="https://hackerone.com/${encodeURIComponent(r.username)}" target="_blank" rel="noopener">
+    <span class="rk${rank <= 3 ? " top" : ""}">${rank}</span>
+    <span class="ava" style="--h:${hue(r.username)}" aria-hidden="true">${initials(r.username)}</span>
+    <span class="who">
+      <span class="handle"><span>${r.username}</span>
+        ${r.business ? '<span class="chip biz">business</span>' : `<span class="chip" style="--tint:${t.tint}">${t.name}</span>`}
+      </span>
+      <span class="meta">${metaLine(r)}</span>
+    </span>
+    <span class="score">
+      <span class="pts">${num(r.reputation)}</span>
+      <span class="repbar"><i style="width:${width(r.reputation)}%"></i></span>
+    </span>
+  </a>`;
+}
+
+const METALS = ["var(--brass)","var(--silver)","var(--bronze)"];
+const UNITS = { reputation:"PTS", worldwide_rank:"DUNIA", resolved_reports:"LAPORAN",
+                thanks_items:"THANKS", signal:"SIGNAL", impact:"IMPACT" };
+
+function podHTML(r, i){
+  const k = state.sort;
+  const raw = r[k];
+  const big = k === "worldwide_rank" ? (raw ? "#" + num(raw) : "—")
+            : (k === "signal" || k === "impact") ? (raw ?? "—")
+            : num(raw ?? 0);
+  const sub = k === "reputation"
+    ? `${num(r.resolved_reports)} laporan · ${r.worldwide_rank ? "dunia #"+num(r.worldwide_rank) : "tanpa rank dunia"}`
+    : `${num(r.reputation)} poin · peringkat nasional #${num(r.country_rank)}`;
+  return `<a class="pod p${i+1}" data-place="${i+1}" style="--metal:${METALS[i]}"
+     href="https://hackerone.com/${encodeURIComponent(r.username)}" target="_blank" rel="noopener">
+    <span class="h">
+      <span class="ava" style="--h:${hue(r.username)}" aria-hidden="true">${initials(r.username)}</span>
+      <span class="handle">${r.username}</span>
+    </span>
+    <span class="pts">${big}<small>${UNITS[k]}</small></span>
+    <span class="sub">${sub}</span>
+  </a>`;
+}
+
+function filtered(){
+  const q = state.q.toLowerCase();
+  let rows = DATA.filter(r =>
+    (state.type === "all" || (state.type === "business") === r.business) &&
+    (!state.tier || tierOf(r.reputation).name === state.tier) &&
+    (!q || r.username.toLowerCase().includes(q))
+  );
+  const k = state.sort;
+  if (k === "worldwide_rank")
+    rows.sort((a,b) => (a.worldwide_rank ?? 1e9) - (b.worldwide_rank ?? 1e9));
+  else if (k !== "reputation")
+    rows.sort((a,b) => (b[k] ?? -1) - (a[k] ?? -1) || b.reputation - a.reputation);
+  return rows;
+}
+
+function render(){
+  const rows = filtered();
+  const list = document.getElementById("list");
+  const pod  = document.getElementById("podium");
+  const more = document.getElementById("more");
+
+  const note = document.getElementById("note");
+  if (state.type === "business"){
+    const biz = DATA.filter(r => r.business).length;
+    note.hidden = false;
+    note.innerHTML = `Akun <b>business</b> adalah tim, agensi, atau perusahaan yang berburu bug atas nama badan usaha, bukan perorangan. ` +
+      `Dari ${num(DATA.length)} akun Indonesia, baru <b>${num(biz)}</b> yang terdaftar sebagai business dan punya reputasi.`;
+  } else note.hidden = true;
+
+  const showPodium = rows.length >= 3 && state.shown >= 50 && !state.q && !state.tier;
+  pod.innerHTML = showPodium ? rows.slice(0,3).map(podHTML).join("") : "";
+
+  if (!rows.length){
+    list.className = "empty";
+    list.innerHTML = `<p>Tidak ada yang cocok</p>
+      <small>${state.type === "business"
+        ? "Akun business adalah tim atau perusahaan yang berburu bug atas nama badan usaha. Papan negara Indonesia baru memuat sedikit sekali — coba hapus filter tier."
+        : "Hapus filter tier atau ubah kata kunci pencarian."}</small>`;
+    more.hidden = true;
+    document.getElementById("count").textContent = "";
+    return;
+  }
+
+  list.className = "list";
+  const head = showPodium ? 3 : 0;
+  list.innerHTML = rows.slice(head, state.shown).map(rowHTML).join("");
+
+  more.hidden = state.shown >= rows.length;
+  document.getElementById("count").textContent =
+    `Menampilkan ${num(Math.min(state.shown, rows.length))} dari ${num(rows.length)} akun`;
+}
+
+function renderStats(meta){
+  const ind = DATA.filter(r => !r.business).length;
+  const biz = DATA.length - ind;
+  const rep = DATA.reduce((s,r) => s + r.reputation, 0);
+  const rr  = DATA.reduce((s,r) => s + r.resolved_reports, 0);
+  const ww  = DATA.filter(r => r.worldwide_rank && r.worldwide_rank <= 1000).length;
+
+  document.getElementById("f-total").textContent = num(DATA.length);
+  document.getElementById("f-rep").textContent   = compact(rep);
+  document.getElementById("f-rep2").textContent  = num(rr);
+  document.getElementById("f-ww").textContent    = num(ww);
+  document.getElementById("c-all").textContent   = num(DATA.length);
+  document.getElementById("c-ind").textContent   = num(ind);
+  document.getElementById("c-biz").textContent   = num(biz);
+
+  const legend = DATA.filter(r => r.reputation >= 10000).length;
+  document.getElementById("lede").innerHTML =
+    `<b>${num(DATA.length)}</b> akun Indonesia pernah masuk papan negara HackerOne sejak 2020 — ` +
+    `<b>${num(ind)}</b> individu dan <b>${num(biz)}</b> business. ` +
+    `Hanya <b>${legend}</b> yang menembus 10.000 poin, sementara ` +
+    `<b>${num(DATA.filter(r => r.reputation < 100).length)}</b> masih di bawah 100.`;
+
+  if (meta?.generated_at){
+    const d = new Date(meta.generated_at);
+    document.getElementById("updated").textContent =
+      d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+  }
+
+  const counts = TIERS.map(t => DATA.filter(r => tierOf(r.reputation).name === t.name).length);
+  const peak = Math.log(1 + Math.max(...counts)) || 1;
+  const label = (t,i) => i === 0 ? `≥ ${num(t.min)} poin`
+    : `${num(t.min)}–${num(TIERS[i-1].min - 1)} poin`;
+  document.getElementById("bands").innerHTML = TIERS.map((t,i) => `
+    <button class="band" data-tier="${t.name}" aria-pressed="${state.tier === t.name}"
+      style="--tint:${t.tint}" title="${t.name} · ${label(t,i)} · ${num(counts[i])} akun">
+      <span class="n">${num(counts[i])}</span>
+      <span class="bar" style="height:${Math.max(8, Math.log(1+counts[i]) / peak * 78).toFixed(1)}px"></span>
+      <span class="t">${t.name}</span>
+    </button>`).join("");
+}
+
+function boot(rows, meta){
+  DATA = rows;
+  MAXREP = Math.max(...DATA.map(r => r.reputation), 1);
+  renderStats(meta);
+  render();
+}
+
+document.addEventListener("click", e => {
+  const band = e.target.closest(".band");
+  if (band){
+    state.tier = state.tier === band.dataset.tier ? null : band.dataset.tier;
+    state.shown = 50;
+    document.querySelectorAll(".band").forEach(b =>
+      b.setAttribute("aria-pressed", String(b.dataset.tier === state.tier)));
+    render();
+  }
+  const tab = e.target.closest(".tab");
+  if (tab){
+    state.type = tab.dataset.type; state.shown = 50;
+    document.querySelectorAll(".tab").forEach(t =>
+      t.setAttribute("aria-selected", String(t === tab)));
+    render();
+  }
+  if (e.target.id === "more"){ state.shown += 50; render(); }
+});
+document.getElementById("q").addEventListener("input", e => {
+  state.q = e.target.value.trim(); state.shown = 50; render();
+});
+document.getElementById("sort").addEventListener("change", e => {
+  state.sort = e.target.value; state.shown = 50; render();
+});
+
+boot(fromSnapshot(SNAPSHOT), SNAP_META);
+
+(async () => {
+  const tryLoad = async (csv, meta) => {
+    const [c, m] = await Promise.all([
+      fetch(csv).then(r => r.ok ? r.text() : Promise.reject()),
+      fetch(meta).then(r => r.ok ? r.json() : null).catch(() => null),
+    ]);
+    const rows = fromCSV(c);
+    if (rows.length > 50) boot(rows, m || SNAP_META);
+  };
+  try { await tryLoad("data/leaderboard_ID.csv", "data/meta_ID.json"); }
+  catch { try { await tryLoad(REMOTE_CSV, REMOTE_META); } catch {} }
+})();
+</script>
+</body>
+</html>
